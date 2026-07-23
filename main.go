@@ -2,47 +2,49 @@ package main
 
 import "fmt"
 
-//Adapter Design pattern - Extended Implementation
+//State Design Pattern
 
-//Target interface
-type mobile interface {
-	chargeAppleMobile()
+type tvState interface {
+	state()
 }
 
-//Concrete Prototype
-type apple struct{}
+//Concrete State implementation
 
-func (a *apple) chargeAppleMobile() {
-	fmt.Println("Apple Mobile is charging")
+type on struct{}
+
+func (o *on) state() {
+	fmt.Println("TV is on!")
 }
 
-//adaptee
-type android struct{}
+type off struct{}
 
-func (a *android) chargeAndroidMobile() {
-	fmt.Printf("Charging android mobile")
+func (o *off) state() {
+	fmt.Println("TV is off!")
 }
 
-//adapter - extend the functionality
-type androidadapter struct {
-	android *android
+type stateContext struct {
+	currenttvstate tvState
 }
 
-func (ad *androidadapter) chargeAppleMobile() {
-	ad.android.chargeAndroidMobile()
+func getcontext() *stateContext {
+	return &stateContext{
+		currenttvstate: &off{},
+	}
 }
 
-//client
-type client struct{}
-
-func (c *client) chargeMobile(mob mobile) {
-	mob.chargeAppleMobile()
+func (sc *stateContext) setState(state tvState) {
+	sc.currenttvstate = state
 }
+
+func (sc *stateContext) getState() {
+	sc.currenttvstate.state()
+
+}
+
+//clinet
 func main() {
-	apple := &apple{}
-	client := &client{}
-	client.chargeMobile(apple)
-	android := &android{}
-	androidadapter := &androidadapter{android: android}
-	client.chargeMobile(androidadapter)
+	tvContext := getcontext()
+	tvContext.getState()
+	tvContext.setState(&on{})
+	tvContext.getState()
 }
