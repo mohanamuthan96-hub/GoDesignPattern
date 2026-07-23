@@ -1,4 +1,6 @@
 # GoDesignPattern
 Learn Design Pattern in Golang
-1.Adapter Pattern - structural
-2.State Pattern - Behaviour
+1.Factory Pattern.
+   It hides the creation logic of instances.
+Lets client ot interact with factory what kind of instances it need to create.
+THen Factory interact with the concrete objects and return with the instances.
